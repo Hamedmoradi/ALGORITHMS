@@ -1,4 +1,4 @@
-package com.example.algorithms.algorithms;
+package com.example.algorithms;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
