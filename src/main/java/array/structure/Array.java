@@ -52,20 +52,22 @@ public class Array {
 
     public int[] insertAt(int index, int value) {
 
-        if (index + 1 > items.length) {
+
+        if (index >= items.length) {
             int[] newArr = new int[index + 1];
             for (int i = 0; i < newArr.length; i++) {
                 if (i == index) {
                     newArr[i] = value;
-                } else {
+                } else if (i < items.length) {
                     newArr[i] = items[i];
                 }
             }
-            return newArr;
+            items = newArr;
         } else {
             items[index] = value;
-            return items;
         }
+
+        return items;
     }
 
     public void printArray() {
@@ -74,5 +76,10 @@ public class Array {
         }
     }
 
-
+//1- Extend the Array class and add a new method to return the largest
+//    number. What is the runtime complexity of this method?
+//    Solution: Array.max()
+//2- Extend the Array class and add a method to return the common items
+//    in this array and another array.
+//    Solution: Array.intersect()
 }
