@@ -6,12 +6,15 @@ public class AnagramFinder {
 
     public static void main(String[] args) {
         String text = "This text is a test that contains some mose, but not much, punctuation marks! Results are expected since we have also words like chum and era.";
-        List<String> anagramWords = findAnagramWords(text);
+        List<String> anagramWords =AnagramSolution.findAnagramWords(text);
         for (String word : anagramWords) {
             System.out.println(word);
         }
     }
 
+
+}
+class AnagramSolution{
     public static List<String> findAnagramWords(String text) {
         String[] words = text.split("[\\s,.;:!]+");
         Map<String, List<String>> freqMapToWordsMap = new HashMap<>();
