@@ -2,7 +2,6 @@ package linkedList.structure;
 
 public class CustomLinkedList<T> {
     private Node<T> head;
-
     private Node<T> tail;
     private int size;
 
@@ -12,11 +11,13 @@ public class CustomLinkedList<T> {
         size = 0;
     }
 
-
     public void addAtFirst(T data) {
         Node<T> newNode = new Node<>(data);
         newNode.next = head;
         head = newNode;
+        if (isEmpty()) {
+            tail = newNode;
+        }
         size++;
     }
 
@@ -40,8 +41,6 @@ public class CustomLinkedList<T> {
         return size;
     }
 
-    // Method to add an element at a specified position in the linked list
-// Method to add an element at a specified position in the linked list
     public void addInTheMiddle(T data, int position) {
         if (position < 0 || position > size) {
             throw new IllegalArgumentException("Invalid position.");
@@ -50,11 +49,10 @@ public class CustomLinkedList<T> {
         Node<T> newNode = new Node<>(data);
 
         if (position == 0) {
-            // Insert at the beginning
             newNode.next = head;
             head = newNode;
             if (isEmpty()) {
-                tail = newNode; // Update tail when adding the first element
+                tail = newNode;
             }
         } else {
             Node<T> current = head;
@@ -65,7 +63,6 @@ public class CustomLinkedList<T> {
             current.next = newNode;
 
             if (position == size) {
-                // Update tail when adding at the end
                 tail = newNode;
             }
         }
@@ -80,6 +77,9 @@ public class CustomLinkedList<T> {
         T removedData = head.data;
         head = head.next;
         size--;
+        if (isEmpty()) {
+            tail = null;
+        }
         return removedData;
     }
 
@@ -87,7 +87,9 @@ public class CustomLinkedList<T> {
         if (isEmpty()) {
             throw new IllegalStateException("The linked list is empty.");
         }
+
         T removedData;
+
         if (head == tail) {
             removedData = head.data;
             head = null;
@@ -97,10 +99,41 @@ public class CustomLinkedList<T> {
             while (current.next != tail) {
                 current = current.next;
             }
+
             removedData = tail.data;
             current.next = null;
             tail = current;
         }
+
+        size--;
+        return removedData;
+    }
+
+    public T removeFromMiddle(int position) {
+        if (position < 0 || position >= size) {
+            throw new IllegalArgumentException("Invalid position.");
+        }
+
+        T removedData;
+
+        if (position == 0) {
+            removedData = head.data;
+            head = head.next;
+            if (size == 1) {
+                tail = null;
+            }
+        } else {
+            Node<T> current = head;
+            for (int i = 0; i < position - 1; i++) {
+                current = current.next;
+            }
+            removedData = current.next.data;
+            current.next = current.next.next;
+            if (position == size - 1) {
+                tail = current;
+            }
+        }
+
         size--;
         return removedData;
     }
@@ -114,15 +147,15 @@ public class CustomLinkedList<T> {
         System.out.println();
     }
 
-    public Boolean containsValue(T data) {
+    public boolean containsValue(T data) {
         Node<T> current = head;
         while (current != null) {
             if (current.data.equals(data)) {
-                return true; // Value found
+                return true;
             }
             current = current.next;
         }
-        return false; // Value not found
+        return false;
     }
 
     public void reverse() {
@@ -131,16 +164,18 @@ public class CustomLinkedList<T> {
         Node<T> next = null;
 
         while (current != null) {
-            next = current.next; // Save the next node
-            current.next = prev; // Reverse the link
-
-            // Move the pointers one step forward
+            next = current.next;
+            current.next = prev;
             prev = current;
             current = next;
         }
 
-        // Update the head to the last node, which is now the new head
         head = prev;
+        // Update tail to point to the last element (head)
+        tail = head;
+        while (tail != null && tail.next != null) {
+            tail = tail.next;
+        }
     }
 
     public int indexOf(T value) {
@@ -149,51 +184,62 @@ public class CustomLinkedList<T> {
 
         while (current != null) {
             if (current.data.equals(value)) {
-                return index; // Value found, return its index
+                return index;
             }
             current = current.next;
             index++;
         }
 
-        return -1; // Value not found, return -1
+        return -1;
     }
 
+    //    Insertion Sort for Singly Linked List
+//Search an element in a Linked List (Iterative and Recursive)
+//Find Length of a Linked List (Iterative and Recursive)
     public static void main(String[] args) {
         CustomLinkedList<Integer> customList = new CustomLinkedList<>();
 
         customList.addLast(1);
         customList.addLast(2);
         customList.addLast(3);
+        customList.addLast(4);
+        customList.addLast(5);
+        customList.addLast(6);
+
+        int searchValue = 2;
+        int newData = 7;
+        int position = 2;
+        int positionToRemove = 2;
 
         System.out.print("Original Linked List: ");
         customList.printList();
 
         customList.reverse();
-
         System.out.print("Reversed Linked List: ");
         customList.printList();
-        int searchValue = 2;
-        int index = customList.indexOf(searchValue);
 
-        if (index != -1) {
-            System.out.println("Index of value " + searchValue + ": " + index);
+        if (customList.indexOf(searchValue) != -1) {
+            System.out.println("Index of value " + searchValue + " : " + customList.indexOf(searchValue));
         } else {
             System.out.println("Value " + searchValue + " not found in the linked list.");
         }
-        int newData = 4;
-        int position = 2;
 
         customList.addInTheMiddle(newData, position);
-
         System.out.print("Linked List after adding in the middle: ");
         customList.printList();
-        int removedElement = customList.removeFromLast();
-        System.out.println("Removed Element: " + removedElement);
 
-        boolean contains = customList.containsValue(searchValue);
-        System.out.println("Contains value " + searchValue + ": " + contains);
+        System.out.println("Contains value " + searchValue + ": " + customList.containsValue(searchValue));
 
+        System.out.println("Removed Element at position " + positionToRemove + ": " + customList.removeFromMiddle(positionToRemove));
+        System.out.print("Linked List after removing from the middle: ");
+        customList.printList();
 
+        System.out.println("Removed Element: " + customList.removeFirst());
+        System.out.print("Linked List after removing from the First: ");
+        customList.printList();
+
+        System.out.println("Removed Element: " + customList.removeFromLast());
+        System.out.print("Linked List after removing from the Last: ");
+        customList.printList();
     }
 }
-
