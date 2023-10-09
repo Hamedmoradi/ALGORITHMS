@@ -1,4 +1,4 @@
-package linkedList.structure;
+package linkedList.singlyLinkedList;
 
 public class Node<T> {
     T data;

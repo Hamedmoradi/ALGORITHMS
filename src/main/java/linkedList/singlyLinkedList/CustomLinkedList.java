@@ -1,4 +1,4 @@
-package linkedList.structure;
+package linkedList.singlyLinkedList;
 
 public class CustomLinkedList<T extends Comparable<T>> {
     private Node<T> head;
@@ -11,7 +11,7 @@ public class CustomLinkedList<T extends Comparable<T>> {
         size = 0;
     }
 
-    public void addAtFirst(T data) {
+    public void insertFirst(T data) {
         Node<T> newNode = new Node<>(data);
         newNode.next = head;
         head = newNode;
@@ -21,15 +21,14 @@ public class CustomLinkedList<T extends Comparable<T>> {
         size++;
     }
 
-    public void addLast(T data) {
+    public void insertLast(T data) {
         Node<T> newNode = new Node<>(data);
         if (isEmpty()) {
             head = newNode;
-            tail = newNode;
         } else {
             tail.next = newNode;
-            tail = newNode;
         }
+        tail = newNode;
         size++;
     }
 
@@ -41,7 +40,7 @@ public class CustomLinkedList<T extends Comparable<T>> {
         return size;
     }
 
-    public void addInTheMiddle(T data, int position) {
+    public void insertInTheMiddle(T data, int position) {
         if (position < 0 || position > size) {
             throw new IllegalArgumentException("Invalid position.");
         }
@@ -77,9 +76,6 @@ public class CustomLinkedList<T extends Comparable<T>> {
         T removedData = head.data;
         head = head.next;
         size--;
-        if (isEmpty()) {
-            tail = null;
-        }
         return removedData;
     }
 
@@ -111,7 +107,7 @@ public class CustomLinkedList<T extends Comparable<T>> {
 
     public T removeFromMiddle(int position) {
         if (position < 0 || position >= size) {
-            throw new IllegalArgumentException("Invalid position.");
+            throw new IllegalArgumentException("Invalid position. Position must be between 0 and " + (size - 1) + ".");
         }
 
         T removedData;
@@ -119,6 +115,7 @@ public class CustomLinkedList<T extends Comparable<T>> {
         if (position == 0) {
             removedData = head.data;
             head = head.next;
+
             if (size == 1) {
                 tail = null;
             }
@@ -127,8 +124,13 @@ public class CustomLinkedList<T extends Comparable<T>> {
             for (int i = 0; i < position - 1; i++) {
                 current = current.next;
             }
-            removedData = current.next.data;
-            current.next = current.next.next;
+
+            Node<T> nodeToRemove = current.next;
+
+            removedData = nodeToRemove.data;
+
+            current.next = nodeToRemove.next;
+
             if (position == size - 1) {
                 tail = current;
             }
@@ -171,11 +173,10 @@ public class CustomLinkedList<T extends Comparable<T>> {
         return current.data;
     }
 
-
     public void reverse() {
         Node<T> prev = null;
         Node<T> current = head;
-        Node<T> next = null;
+        Node<T> next;
 
         while (current != null) {
             next = current.next;
@@ -185,7 +186,6 @@ public class CustomLinkedList<T extends Comparable<T>> {
         }
 
         head = prev;
-        // Update tail to point to the last element (head)
         tail = head;
         while (tail != null && tail.next != null) {
             tail = tail.next;
@@ -207,27 +207,21 @@ public class CustomLinkedList<T extends Comparable<T>> {
         return -1;
     }
 
-
     public void sortLinkedList() {
         if (size <= 1) {
-            // Already sorted or empty list, nothing to do
             return;
         }
 
-        // Split the list into two halves
         CustomLinkedList<T> leftHalf = new CustomLinkedList<>();
         CustomLinkedList<T> rightHalf = new CustomLinkedList<>();
         splitList(this, leftHalf, rightHalf);
 
-        // Recursively sort the two halves
         leftHalf.sortLinkedList();
         rightHalf.sortLinkedList();
 
-        // Merge the sorted halves back together
         merge(leftHalf, rightHalf);
     }
 
-    // Helper method to split the list into two halves
     private void splitList(CustomLinkedList<T> source, CustomLinkedList<T> left, CustomLinkedList<T> right) {
         Node<T> current = source.head;
         int middle = source.size / 2;
@@ -235,16 +229,15 @@ public class CustomLinkedList<T extends Comparable<T>> {
 
         while (current != null) {
             if (i < middle) {
-                left.addLast(current.data);
+                left.insertLast(current.data);
             } else {
-                right.addLast(current.data);
+                right.insertLast(current.data);
             }
             current = current.next;
             i++;
         }
     }
 
-    // Helper method to merge two sorted lists
     private void merge(CustomLinkedList<T> left, CustomLinkedList<T> right) {
         Node<T> leftCurrent = left.head;
         Node<T> rightCurrent = right.head;
@@ -252,21 +245,21 @@ public class CustomLinkedList<T extends Comparable<T>> {
 
         while (leftCurrent != null && rightCurrent != null) {
             if (leftCurrent.data.compareTo(rightCurrent.data) <= 0) {
-                addLast(leftCurrent.data);
+                insertLast(leftCurrent.data);
                 leftCurrent = leftCurrent.next;
             } else {
-                addLast(rightCurrent.data);
+                insertLast(rightCurrent.data);
                 rightCurrent = rightCurrent.next;
             }
         }
 
         while (leftCurrent != null) {
-            addLast(leftCurrent.data);
+            insertLast(leftCurrent.data);
             leftCurrent = leftCurrent.next;
         }
 
         while (rightCurrent != null) {
-            addLast(rightCurrent.data);
+            insertLast(rightCurrent.data);
             rightCurrent = rightCurrent.next;
         }
     }
@@ -276,20 +269,23 @@ public class CustomLinkedList<T extends Comparable<T>> {
         tail = null;
         size = 0;
     }
-    // ... (other methods for linked list operations)
 
 
-    //Search an element in a Linked List (Iterative and Recursive)
+    //toArray()
+//getNthFromTheEnd()--->20 min
+//Check to see if a linked list has a loop. LinkedList.hasLoop()
+//Find the middle of a linked list in one pass.
+//Search an element in a Linked List (Recursive)
 //Find Length of a Linked List (Iterative and Recursive)
     public static void main(String[] args) {
         CustomLinkedList<Integer> customList = new CustomLinkedList<>();
-        customList.addLast(3);
-        customList.addLast(1);
-        customList.addLast(4);
-        customList.addLast(8);
-        customList.addLast(4);
-        customList.addLast(2);
-        customList.addLast(6);
+        customList.insertLast(3);
+        customList.insertLast(1);
+        customList.insertLast(4);
+        customList.insertLast(8);
+        customList.insertLast(4);
+        customList.insertLast(2);
+        customList.insertLast(6);
 
         int searchValue = 2;
         int newData = 7;
@@ -303,6 +299,9 @@ public class CustomLinkedList<T extends Comparable<T>> {
         System.out.print("Reversed Linked List: ");
         customList.printList();
 
+        customList.insertFirst(9);
+        System.out.print("Insert at the First: ");
+        customList.printList();
 
         customList.sortLinkedList();
         System.out.print("Sorted Linked List: ");
@@ -314,7 +313,7 @@ public class CustomLinkedList<T extends Comparable<T>> {
             System.out.println("Value " + searchValue + " not found in the linked list.");
         }
 
-        customList.addInTheMiddle(newData, position);
+        customList.insertInTheMiddle(newData, position);
         System.out.print("Linked List after adding in the middle: ");
         customList.printList();
 
