@@ -1,6 +1,6 @@
 package linkedList.structure;
 
-public class CustomLinkedList<T> {
+public class CustomLinkedList<T extends Comparable<T>> {
     private Node<T> head;
     private Node<T> tail;
     private int size;
@@ -158,6 +158,20 @@ public class CustomLinkedList<T> {
         return false;
     }
 
+    public T valueOf(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index is out of bounds.");
+        }
+
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current.data;
+    }
+
+
     public void reverse() {
         Node<T> prev = null;
         Node<T> current = head;
@@ -193,17 +207,88 @@ public class CustomLinkedList<T> {
         return -1;
     }
 
-    //    Insertion Sort for Singly Linked List
-//Search an element in a Linked List (Iterative and Recursive)
+
+    public void sortLinkedList() {
+        if (size <= 1) {
+            // Already sorted or empty list, nothing to do
+            return;
+        }
+
+        // Split the list into two halves
+        CustomLinkedList<T> leftHalf = new CustomLinkedList<>();
+        CustomLinkedList<T> rightHalf = new CustomLinkedList<>();
+        splitList(this, leftHalf, rightHalf);
+
+        // Recursively sort the two halves
+        leftHalf.sortLinkedList();
+        rightHalf.sortLinkedList();
+
+        // Merge the sorted halves back together
+        merge(leftHalf, rightHalf);
+    }
+
+    // Helper method to split the list into two halves
+    private void splitList(CustomLinkedList<T> source, CustomLinkedList<T> left, CustomLinkedList<T> right) {
+        Node<T> current = source.head;
+        int middle = source.size / 2;
+        int i = 0;
+
+        while (current != null) {
+            if (i < middle) {
+                left.addLast(current.data);
+            } else {
+                right.addLast(current.data);
+            }
+            current = current.next;
+            i++;
+        }
+    }
+
+    // Helper method to merge two sorted lists
+    private void merge(CustomLinkedList<T> left, CustomLinkedList<T> right) {
+        Node<T> leftCurrent = left.head;
+        Node<T> rightCurrent = right.head;
+        clear();
+
+        while (leftCurrent != null && rightCurrent != null) {
+            if (leftCurrent.data.compareTo(rightCurrent.data) <= 0) {
+                addLast(leftCurrent.data);
+                leftCurrent = leftCurrent.next;
+            } else {
+                addLast(rightCurrent.data);
+                rightCurrent = rightCurrent.next;
+            }
+        }
+
+        while (leftCurrent != null) {
+            addLast(leftCurrent.data);
+            leftCurrent = leftCurrent.next;
+        }
+
+        while (rightCurrent != null) {
+            addLast(rightCurrent.data);
+            rightCurrent = rightCurrent.next;
+        }
+    }
+
+    public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+    // ... (other methods for linked list operations)
+
+
+    //Search an element in a Linked List (Iterative and Recursive)
 //Find Length of a Linked List (Iterative and Recursive)
     public static void main(String[] args) {
         CustomLinkedList<Integer> customList = new CustomLinkedList<>();
-
-        customList.addLast(1);
-        customList.addLast(2);
         customList.addLast(3);
+        customList.addLast(1);
         customList.addLast(4);
-        customList.addLast(5);
+        customList.addLast(8);
+        customList.addLast(4);
+        customList.addLast(2);
         customList.addLast(6);
 
         int searchValue = 2;
@@ -216,6 +301,11 @@ public class CustomLinkedList<T> {
 
         customList.reverse();
         System.out.print("Reversed Linked List: ");
+        customList.printList();
+
+
+        customList.sortLinkedList();
+        System.out.print("Sorted Linked List: ");
         customList.printList();
 
         if (customList.indexOf(searchValue) != -1) {
@@ -240,6 +330,10 @@ public class CustomLinkedList<T> {
 
         System.out.println("Removed Element: " + customList.removeFromLast());
         System.out.print("Linked List after removing from the Last: ");
+        customList.printList();
+
+        int index = 4;
+        System.out.println("Value Of  Index " + index + " : " + customList.valueOf(4));
         customList.printList();
     }
 }
