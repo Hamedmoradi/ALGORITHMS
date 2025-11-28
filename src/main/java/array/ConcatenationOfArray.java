@@ -26,7 +26,6 @@ public class ConcatenationOfArray {
 
     public static void main(String[] args) {
         ConcatenationOfArray c = new ConcatenationOfArray();
-        int[] nums = new int[]{1,2,3,4};
-        System.out.println(Arrays.toString(c.getConcatenation(nums)));
+        System.out.println(Arrays.toString(c.getConcatenation(new int[]{1,2,3,4})));
     }
 }

@@ -1,4 +1,4 @@
-package array.subArrayDivision;
+package array;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,28 +6,6 @@ import java.util.Scanner;
 
 public class EqualMatrixRowAndColumnPairs {
 
-    public static void main(String[] args) {
-        System.out.println("enter row size:");
-        Scanner s1 = new Scanner(System.in);
-        int row = s1.nextInt();
-        System.out.println("enter column size:");
-        Scanner s2 = new Scanner(System.in);
-        int column = s2.nextInt();
-        int[][] grid = new int[row][column];
-        for (int i = 0; i < row; i++) {
-            System.out.println("enter numbers:");
-            for (int j = 0; j < column; j++) {
-                Scanner s3 = new Scanner(System.in);
-                grid[i][j] = s3.nextInt();
-            }
-        }
-
-        int result = SolutionEqualPairs.equalPairs(grid);
-        System.out.println("equals pair is: " + result);
-    }
-}
-
-class SolutionEqualPairs {
     public static int equalPairs(int[][] grid) {
         int n = grid.length;
         Map<String, Integer> map = new HashMap<>();
@@ -55,4 +33,24 @@ class SolutionEqualPairs {
 
         return count;
     }
+
+    public static void main(String[] args) {
+        System.out.println("enter row size:");
+        Scanner s1 = new Scanner(System.in);
+        int row = s1.nextInt();
+        System.out.println("enter column size:");
+        Scanner s2 = new Scanner(System.in);
+        int column = s2.nextInt();
+        int[][] grid = new int[row][column];
+        for (int i = 0; i < row; i++) {
+            System.out.println("enter numbers:");
+            for (int j = 0; j < column; j++) {
+                Scanner s3 = new Scanner(System.in);
+                grid[i][j] = s3.nextInt();
+            }
+        }
+
+        System.out.println("equals pair is: " + EqualMatrixRowAndColumnPairs.equalPairs(grid));
+    }
+
 }

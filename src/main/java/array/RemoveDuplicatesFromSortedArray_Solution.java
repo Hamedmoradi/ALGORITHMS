@@ -1,10 +1,7 @@
-package array.subArrayDivision;
+package array;
 
-public class RemoveDuplicatesFromSortedArray {
 
-}
-
-class RemoveDuplicatesFromSortedArray_Solution {
+public class RemoveDuplicatesFromSortedArray_Solution {
     public int removeDuplicates(int[] nums) {
         int i = 0;
         for (int j = 1; j < nums.length; j++) {
