@@ -1,18 +1,10 @@
-package array.subArrayDivision;
+package array;
 
 import java.io.IOException;
 import java.util.*;
 
 public class KeyboardRow {
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.next();
-        System.out.println(Arrays.stream(new String[]{Arrays.toString(SolutionKeyboardRow.findWords(input.split(" ")))}).toList());
-    }
 
-}
-
-class SolutionKeyboardRow {
     public static String[] findWords(String[] words) {
         /*
           The row1, row2, and row3 sets represent the characters in each row of the keyboard.
@@ -34,5 +26,11 @@ class SolutionKeyboardRow {
         }
 
         return result.toArray(new String[0]);
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        System.out.println(Arrays.stream(new String[]{Arrays.toString(KeyboardRow.findWords(input.split(" ")))}).toList());
     }
 }

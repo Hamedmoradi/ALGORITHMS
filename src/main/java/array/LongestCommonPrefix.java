@@ -1,4 +1,4 @@
-package array.longestCommonPrefix;
+package array;
 
 class LongestCommonPrefix {
     public String longestCommonPrefix(String[] strs) {

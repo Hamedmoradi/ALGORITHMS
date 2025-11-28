@@ -1,20 +1,9 @@
-package array.subArrayDivision;
+package string;
 
 import java.util.*;
 
 public class AnagramFinder {
 
-    public static void main(String[] args) {
-        String text = "This text is a test that contains some mose, but not much, punctuation marks! Results are expected since we have also words like chum and era.";
-        List<String> anagramWords =AnagramSolution.findAnagramWords(text);
-        for (String word : anagramWords) {
-            System.out.println(word);
-        }
-    }
-
-
-}
-class AnagramSolution{
     public static List<String> findAnagramWords(String text) {
         String[] words = text.split("[\\s,.;:!]+");
         Map<String, List<String>> freqMapToWordsMap = new HashMap<>();
@@ -51,5 +40,13 @@ class AnagramSolution{
             freq[ch - 'a']++;
         }
         return Arrays.toString(freq);
+    }
+
+    public static void main(String[] args) {
+        String text = "This text is a test that contains some mose omse, but not much, punctuation marks! Results are expected since we have also words like chum and era.";
+        List<String> anagramWords = AnagramFinder.findAnagramWords(text);
+        for (String word : anagramWords) {
+            System.out.println(word);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package array.subArrayDivision;
+package array;
 
 
 import java.io.BufferedReader;

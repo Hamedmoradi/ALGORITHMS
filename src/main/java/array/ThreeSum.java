@@ -1,4 +1,4 @@
-package array.three_sum;
+package array;
 
 import java.util.*;
 
