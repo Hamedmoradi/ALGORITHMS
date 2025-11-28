@@ -52,7 +52,6 @@ public class Array {
 
     public int[] insertAt(int index, int value) {
 
-
         if (index >= items.length) {
             int[] newArr = new int[index + 1];
             for (int i = 0; i < newArr.length; i++) {
@@ -70,6 +69,21 @@ public class Array {
         return items;
     }
 
+    public int[] removeElement(int[] numbers, int val) {
+        int index = 0;
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] != val) {
+                numbers[index] = numbers[i];
+                index++;
+            }
+            if (index == numbers.length - 1) {
+                numbers[index] = 0;
+                break;
+            }
+        }
+        return numbers;
+    }
+
     public void printArray() {
         for (int a : items) {
             System.out.println(a);
@@ -82,4 +96,44 @@ public class Array {
 //2- Extend the Array class and add a method to return the common items
 //    in this array and another array.
 //    Solution: Array.intersect()
+
+
+    public static void main(String[] args) {
+        Array array = new Array(3);
+        array.insert(0);
+        array.insert(1);
+        array.insert(2);
+        array.insert(30);
+        array.insert(4);
+
+        array.insertAt(6, 60);
+        array.insertAt(9, 90);
+        array.insertAt(7, 70);
+        array.printArray();
+        System.out.println("++++++++++++++++++++++++");
+        array.removeAt(2);
+        array.printArray();
+        System.out.println("++++++++++++++++++++++++");
+        System.out.println(array.indexOf(30));
+        System.out.println("++++++++++++++++++++++++");
+        array.reverse();
+        array.printArray();
+    }
+
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("enter the length of array:");
+//        int length = scanner.nextInt();
+//        System.out.println("enter the array elements:");
+//
+//        int[] arr = new int[length];
+//        for (int i = 0; i < length; i++) {
+//            Scanner s3 = new Scanner(System.in);
+//            arr[i] = s3.nextInt();
+//        }
+//        System.out.println("please enter the element that want to delete:");
+//        int target = scanner.nextInt();
+//        Array array = new Array(length);
+//        System.out.println(Arrays.toString(array.removeElement(arr, target)));
+//    }
 }
