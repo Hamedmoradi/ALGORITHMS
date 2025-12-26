@@ -3,14 +3,6 @@ package string;
 import java.util.Scanner;
 
 public class BinaryString {
-    public static void main(String[] args) {
-        String banaryString = strToBinary(getString());
-    }
-
-    private static String getString() {
-        Scanner scanner = new Scanner(System.in);
-        return scanner.next();
-    }
 
     static String strToBinary(String s) {
         int n = s.length();
@@ -47,6 +39,17 @@ public class BinaryString {
             a[l] = a[r];
             a[r] = temp;
         }
+        System.out.println(new String(a));
         return String.valueOf(a);
     }
+    private static String getString() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.next();
+    }
+
+    public static void main(String[] args) {
+        String banaryString = reverse(getString());
+    }
+
+
 }
